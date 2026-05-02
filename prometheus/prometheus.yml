@@ -22,4 +22,4 @@ scrape_configs:
 
   - job_name: 'kube-state-metrics'
     static_configs:
-      - targets: ['kube-state-metrics:8080']
+      - targets: ['10.0.10.97:32300', '10.0.29.194:32300']
