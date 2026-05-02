@@ -1,0 +1,43 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: slack-neko
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  routes:
+    - match:
+        namespace: neko
+      receiver: slack-neko
+    - match:
+        namespace: sensor-api
+      receiver: slack-sensor-api
+    - match:
+        namespace: sensor-view
+      receiver: slack-sensor-view
+
+receivers:
+  - name: slack-neko
+    slack_configs:
+      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        channel: '#alerts-neko'
+        title: '[{{ .Status | toUpper }}] {{ .CommonAnnotations.summary }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        send_resolved: true
+
+  - name: slack-sensor-api
+    slack_configs:
+      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        channel: '#alerts-sensor-api'
+        title: '[{{ .Status | toUpper }}] {{ .CommonAnnotations.summary }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        send_resolved: true
+
+  - name: slack-sensor-view
+    slack_configs:
+      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        channel: '#alerts-sensor-view'
+        title: '[{{ .Status | toUpper }}] {{ .CommonAnnotations.summary }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        send_resolved: true
