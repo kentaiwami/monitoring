@@ -11,6 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Copy secrets
+        run: |
+          cp ~/monitoring/alertmanager/alertmanager.yml alertmanager/alertmanager.yml
+          cp ~/monitoring/.env .env
+
       - name: Pull and restart
         run: |
           docker compose pull
