@@ -14,7 +14,7 @@ groups:
         expr: sum without(instance, job) (kube_pod_status_ready{condition="true", namespace!~"kube-system|kube-public|monitoring"}) == 0
         for: 1m
         labels:
-          severity: warning
+          severity: critical
           namespace: "{{ $labels.namespace }}"
         annotations:
           summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} が1分以上NotReady"
