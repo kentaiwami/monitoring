@@ -2,7 +2,7 @@ groups:
   - name: kubernetes
     rules:
       - alert: PodCrashLooping
-        expr: sum without(instance, job) (increase(kube_pod_container_status_restarts_total{namespace=~"neko|sensor-api|sensor-view"}[5m])) > 0
+        expr: sum without(instance, job) (increase(kube_pod_container_status_restarts_total{namespace!~"kube-system|kube-public|monitoring"}[5m])) > 0
         for: 1m
         labels:
           severity: critical
@@ -11,7 +11,7 @@ groups:
           summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} がCrashLoopしています"
 
       - alert: PodNotReady
-        expr: sum without(instance, job) (kube_pod_status_ready{condition="true", namespace=~"neko|sensor-api|sensor-view"}) == 0
+        expr: sum without(instance, job) (kube_pod_status_ready{condition="true", namespace!~"kube-system|kube-public|monitoring"}) == 0
         for: 5m
         labels:
           severity: warning
