@@ -12,7 +12,7 @@ groups:
 
       - alert: PodNotReady
         expr: sum without(instance, job) (kube_pod_status_ready{condition="true", namespace!~"kube-system|kube-public|monitoring"}) == 0
-        for: 5m
+        for: 1m
         labels:
           severity: warning
           namespace: "{{ $labels.namespace }}"
