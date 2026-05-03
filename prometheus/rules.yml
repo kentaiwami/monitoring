@@ -27,3 +27,12 @@ groups:
           namespace: "{{ $labels.namespace }}"
         annotations:
           summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} のreplicas数が不足しています"
+
+      - alert: SensorDataNotReceived
+        expr: time() - sensor_last_received_timestamp > 60
+        for: 1m
+        labels:
+          severity: warning
+          namespace: sensor-api
+        annotations:
+          summary: "センサー {{ $labels.table }} のデータが1分以上受信されていません"
