@@ -20,6 +20,7 @@ jobs:
         run: |
           docker compose pull
           docker compose up -d --remove-orphans
+          docker compose restart prometheus alertmanager
 
       - name: Notify Slack on success
         if: success()
