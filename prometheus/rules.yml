@@ -18,3 +18,12 @@ groups:
           namespace: "{{ $labels.namespace }}"
         annotations:
           summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} が1分以上NotReady"
+
+      - alert: DeploymentReplicasMismatch
+        expr: sum without(instance, job) (kube_deployment_status_replicas_available{namespace!~"kube-system|kube-public|monitoring"}) < sum without(instance, job) (kube_deployment_spec_replicas{namespace!~"kube-system|kube-public|monitoring"})
+        for: 1m
+        labels:
+          severity: warning
+          namespace: "{{ $labels.namespace }}"
+        annotations:
+          summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} のreplicas数が不足しています"
