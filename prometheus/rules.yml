@@ -17,4 +17,4 @@ groups:
           severity: warning
           namespace: "{{ $labels.namespace }}"
         annotations:
-          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} が5分以上NotReady"
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} が1分以上NotReady"
