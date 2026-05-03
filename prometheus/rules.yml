@@ -36,3 +36,12 @@ groups:
           namespace: sensor-api
         annotations:
           summary: "センサー {{ $labels.table }} のデータが1分以上受信されていません"
+
+      - alert: CronJobFailed
+        expr: kube_job_failed{namespace="aws-cost", condition="true"} > 0
+        for: 0m
+        labels:
+          severity: critical
+          namespace: "{{ $labels.namespace }}"
+        annotations:
+          summary: "Job {{ $labels.namespace }}/{{ $labels.job_name }} が失敗しました"
