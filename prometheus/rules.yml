@@ -29,7 +29,7 @@ groups:
           summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} のreplicas数が不足しています"
 
       - alert: SensorDataNotReceived
-        expr: time() - sensor_last_received_timestamp > 60
+        expr: time() - sum without(instance, job) (sensor_last_received_timestamp) > 60
         for: 1m
         labels:
           severity: warning
