@@ -38,7 +38,7 @@ groups:
           summary: "センサー {{ $labels.table }} のデータが1分以上受信されていません"
 
       - alert: CronJobFailed
-        expr: kube_job_failed{namespace="aws-cost", condition="true"} > 0
+        expr: kube_job_failed{namespace!~"kube-system|kube-public|monitoring", condition="true"} > 0
         for: 0m
         labels:
           severity: critical
@@ -47,7 +47,7 @@ groups:
           summary: "Job {{ $labels.namespace }}/{{ $labels.job_name }} が失敗しました"
 
       - alert: CronJobNotCompleted
-        expr: (time() - kube_cronjob_status_last_successful_time{namespace="aws-cost"}) > 86400 + 3600
+        expr: (time() - kube_cronjob_status_last_successful_time{namespace!~"kube-system|kube-public|monitoring"}) > 86400 + 3600
         for: 0m
         labels:
           severity: warning
