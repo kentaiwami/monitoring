@@ -20,6 +20,11 @@ spec:
           image: grafana/promtail:3.4.3
           args:
             - -config.file=/etc/promtail/config.yml
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           ports:
             - containerPort: 9080
           resources:
@@ -57,6 +62,7 @@ data:
     server:
       http_listen_port: 9080
       grpc_listen_port: 0
+      log_level: debug
 
     positions:
       filename: /run/promtail/positions.yaml
@@ -69,7 +75,7 @@ data:
         kubernetes_sd_configs:
           - role: pod
         pipeline_stages:
-          - docker: {}
+          - cri: {}
         relabel_configs:
           - source_labels: [__meta_kubernetes_pod_node_name]
             target_label: __host__
@@ -81,10 +87,10 @@ data:
             target_label: pod
           - source_labels: [__meta_kubernetes_pod_container_name]
             target_label: container
-          - replacement: /var/log/pods/*$1/*.log
+          - source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
             separator: /
-            source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
             target_label: __path__
+            replacement: /var/log/pods/*$1/*.log
 ---
 apiVersion: v1
 kind: ServiceAccount
