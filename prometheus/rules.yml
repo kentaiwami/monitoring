@@ -45,3 +45,38 @@ groups:
           namespace: "{{ $labels.namespace }}"
         annotations:
           summary: "Job {{ $labels.namespace }}/{{ $labels.job_name }} が失敗しました"
+
+      - alert: CronJobNotCompleted
+        expr: (time() - kube_cronjob_status_last_successful_time{namespace="aws-cost"}) > 86400 + 3600
+        for: 0m
+        labels:
+          severity: warning
+          namespace: "{{ $labels.namespace }}"
+        annotations:
+          summary: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} が25時間以上正常完了していません"
+
+  - name: node
+    rules:
+      - alert: DiskSpaceLow
+        expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} < 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が20%未満です"
+
+      - alert: DiskSpaceCritical
+        expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} < 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が10%未満です"
+
+      - alert: InodeLow
+        expr: node_filesystem_files_free{fstype!~"tmpfs|overlay"} / node_filesystem_files{fstype!~"tmpfs|overlay"} < 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} inode残量が20%未満です"
