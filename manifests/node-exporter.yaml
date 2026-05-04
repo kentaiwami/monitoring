@@ -24,6 +24,18 @@ spec:
           ports:
             - containerPort: 9100
               hostPort: 9100
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9100
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9100
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             requests:
               cpu: 10m
