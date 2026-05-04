@@ -13,8 +13,8 @@ jobs:
 
       - name: Copy secrets
         run: |
-          cp ~/monitoring/alertmanager/alertmanager.yml alertmanager/alertmanager.yml
-          cp ~/monitoring/.env .env
+          cp ~/.secrets/monitoring/alertmanager.yml alertmanager/alertmanager.yml
+          cp ~/.secrets/monitoring/.env .env
 
       - name: Pull and restart
         run: |
