@@ -21,6 +21,14 @@ services:
       - "9093:9093"
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki:3.4.3
+    volumes:
+      - loki_data:/loki
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+
   grafana:
     image: grafana/grafana:11.6.1
     volumes:
@@ -35,3 +43,4 @@ services:
 volumes:
   prometheus_data:
   grafana_data:
+  loki_data:
