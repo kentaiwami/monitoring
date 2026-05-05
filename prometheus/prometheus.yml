@@ -19,6 +19,24 @@ scrape_configs:
     static_configs:
       - targets: ['10.0.10.97:32224', '10.0.29.194:32224']
 
+  - job_name: 'cadvisor'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    bearer_token_file: /etc/prometheus/kubeconfig
+    kubernetes_sd_configs:
+      - role: node
+        kubeconfig_file: /etc/prometheus/kubeconfig
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        regex: (.+)
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
+
   - job_name: 'node-exporter'
     static_configs:
       - targets: ['10.0.10.97:9100']
