@@ -23,7 +23,7 @@ scrape_configs:
     scheme: https
     tls_config:
       insecure_skip_verify: true
-    bearer_token_file: /etc/prometheus/kubeconfig
+    bearer_token_file: /etc/prometheus/token
     kubernetes_sd_configs:
       - role: node
         kubeconfig_file: /etc/prometheus/kubeconfig

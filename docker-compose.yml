@@ -5,6 +5,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/rules.yml:/etc/prometheus/rules.yml
       - ~/.kube/config:/etc/prometheus/kubeconfig:ro
+      - ~/.secrets/prometheus-token:/etc/prometheus/token:ro
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
