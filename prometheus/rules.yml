@@ -57,11 +57,48 @@ groups:
 
   - name: node
     rules:
+      - alert: NodeCPUHigh
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          channel: monitoring
+        annotations:
+          summary: "{{ $labels.instance }} のCPU使用率が80%を超えています"
+
+      - alert: NodeMemoryHigh
+        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          channel: monitoring
+        annotations:
+          summary: "{{ $labels.instance }} のメモリ使用率が80%を超えています"
+
+      - alert: PodCPUHigh
+        expr: sum by(namespace, pod, container) (rate(container_cpu_usage_seconds_total{container!=""}[5m])) / sum by(namespace, pod, container) (kube_pod_container_resource_requests{resource="cpu", container!=""}) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          channel: monitoring
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} のCPU使用率がリクエストの80%を超えています"
+
+      - alert: PodMemoryHigh
+        expr: sum by(namespace, pod, container) (container_memory_working_set_bytes{container!=""}) / sum by(namespace, pod, container) (kube_pod_container_resource_requests{resource="memory", container!=""}) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          channel: monitoring
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} のメモリ使用率がリクエストの80%を超えています"
+
       - alert: DiskSpaceLow
         expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} < 0.2
         for: 5m
         labels:
           severity: warning
+          channel: monitoring
         annotations:
           summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が20%未満です"
 
@@ -70,6 +107,7 @@ groups:
         for: 5m
         labels:
           severity: critical
+          channel: monitoring
         annotations:
           summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が10%未満です"
 
@@ -78,5 +116,6 @@ groups:
         for: 5m
         labels:
           severity: warning
+          channel: monitoring
         annotations:
           summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} inode残量が20%未満です"
