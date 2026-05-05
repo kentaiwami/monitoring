@@ -13,7 +13,7 @@
         {
           "datasource": "Prometheus",
           "expr": "100 - (avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
-          "legendFormat": "{{ instance }}"
+          "legendFormat": "{{ instance_name }}"
         }
       ],
       "fieldConfig": {
@@ -40,7 +40,7 @@
         {
           "datasource": "Prometheus",
           "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100",
-          "legendFormat": "{{ instance }}"
+          "legendFormat": "{{ instance_name }}"
         }
       ],
       "fieldConfig": {
@@ -67,7 +67,7 @@
         {
           "datasource": "Prometheus",
           "expr": "(1 - node_filesystem_avail_bytes{fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{fstype!~\"tmpfs|overlay\"}) * 100",
-          "legendFormat": "{{ instance }} {{ mountpoint }}"
+          "legendFormat": "{{ instance_name }} {{ mountpoint }}"
         }
       ],
       "fieldConfig": {
@@ -94,12 +94,12 @@
         {
           "datasource": "Prometheus",
           "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes",
-          "legendFormat": "used {{ instance }}"
+          "legendFormat": "used {{ instance_name }}"
         },
         {
           "datasource": "Prometheus",
           "expr": "node_memory_MemTotal_bytes",
-          "legendFormat": "total {{ instance }}"
+          "legendFormat": "total {{ instance_name }}"
         }
       ],
       "fieldConfig": {
