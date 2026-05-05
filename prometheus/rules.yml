@@ -64,7 +64,7 @@ groups:
           severity: warning
           channel: monitoring
         annotations:
-          summary: "{{ $labels.instance }} のCPU使用率が80%を超えています"
+          summary: "{{ $labels.instance_name }} のCPU使用率が80%を超えています"
 
       - alert: NodeMemoryHigh
         expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 80
@@ -73,7 +73,7 @@ groups:
           severity: warning
           channel: monitoring
         annotations:
-          summary: "{{ $labels.instance }} のメモリ使用率が80%を超えています"
+          summary: "{{ $labels.instance_name }} のメモリ使用率が80%を超えています"
 
       - alert: PodCPUHigh
         expr: sum by(namespace, pod, container) (rate(container_cpu_usage_seconds_total{container!=""}[5m])) / sum by(namespace, pod, container) (kube_pod_container_resource_requests{resource="cpu", container!=""}) * 100 > 80
@@ -100,7 +100,7 @@ groups:
           severity: warning
           channel: monitoring
         annotations:
-          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が20%未満です"
+          summary: "{{ $labels.instance_name }} の {{ $labels.mountpoint }} ディスク残量が20%未満です"
 
       - alert: DiskSpaceCritical
         expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} < 0.1
@@ -109,7 +109,7 @@ groups:
           severity: critical
           channel: monitoring
         annotations:
-          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} ディスク残量が10%未満です"
+          summary: "{{ $labels.instance_name }} の {{ $labels.mountpoint }} ディスク残量が10%未満です"
 
       - alert: InodeLow
         expr: node_filesystem_files_free{fstype!~"tmpfs|overlay"} / node_filesystem_files{fstype!~"tmpfs|overlay"} < 0.2
@@ -118,4 +118,4 @@ groups:
           severity: warning
           channel: monitoring
         annotations:
-          summary: "{{ $labels.instance }} の {{ $labels.mountpoint }} inode残量が20%未満です"
+          summary: "{{ $labels.instance_name }} の {{ $labels.mountpoint }} inode残量が20%未満です"
