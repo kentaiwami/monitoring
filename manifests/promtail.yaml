@@ -62,7 +62,7 @@ data:
     server:
       http_listen_port: 9080
       grpc_listen_port: 0
-      log_level: debug
+      log_level: info
 
     positions:
       filename: /run/promtail/positions.yaml
