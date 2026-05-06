@@ -999,7 +999,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container=\"$container\",pod=\"$podname\"}[5m])",
+          "expr": "rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container=\"$container\",pod=~\"$podname\"}[5m])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1008,13 +1008,13 @@
           "refId": "A"
         },
         {
-          "expr": "avg(kube_pod_container_resource_limits{namespace=\"$namespace\",container=\"$container\",resource=\"cpu\",pod=\"$podname\"})",
+          "expr": "avg(kube_pod_container_resource_limits{namespace=\"$namespace\",container=\"$container\",resource=\"cpu\",pod=~\"$podname\"})",
           "hide": false,
           "legendFormat": "Limits",
           "refId": "B"
         },
         {
-          "expr": "avg(kube_pod_container_resource_requests{namespace=\"$namespace\",container=\"$container\",resource=\"cpu\",pod=\"$podname\"})",
+          "expr": "avg(kube_pod_container_resource_requests{namespace=\"$namespace\",container=\"$container\",resource=\"cpu\",pod=~\"$podname\"})",
           "hide": false,
           "legendFormat": "Requests",
           "refId": "C"
@@ -1122,7 +1122,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_working_set_bytes{namespace=\"$namespace\",container=\"$container\",pod=\"$podname\"}",
+          "expr": "container_memory_working_set_bytes{namespace=\"$namespace\",container=\"$container\",pod=~\"$podname\"}",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
@@ -1130,12 +1130,12 @@
           "refId": "A"
         },
         {
-          "expr": "avg(kube_pod_container_resource_limits{namespace=\"$namespace\",container=\"$container\",resource=\"memory\",pod=\"$podname\"})",
+          "expr": "avg(kube_pod_container_resource_limits{namespace=\"$namespace\",container=\"$container\",resource=\"memory\",pod=~\"$podname\"})",
           "legendFormat": "Limits",
           "refId": "B"
         },
         {
-          "expr": "avg(kube_pod_container_resource_requests{namespace=\"$namespace\",container=\"$container\",resource=\"memory\",pod=\"$podname\"})",
+          "expr": "avg(kube_pod_container_resource_requests{namespace=\"$namespace\",container=\"$container\",resource=\"memory\",pod=~\"$podname\"})",
           "legendFormat": "Request",
           "refId": "C"
         }
