@@ -48,3 +48,6 @@ scrape_configs:
       - targets: ['10.0.2.156:9100']
         labels:
           instance_name: control-plane
+      - targets: ['10.0.1.11:9100']
+        labels:
+          instance_name: db_registry
