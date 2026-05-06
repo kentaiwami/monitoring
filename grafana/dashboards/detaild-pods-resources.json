@@ -147,7 +147,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container_name!=\"POD\",container_name!=\"\",container!=\"monitoring-daemon\"}[5m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container!=\"POD\",container!=\"\",container!=\"monitoring-daemon\"}[5m]))",
           "instant": false,
           "legendFormat": "${namespace} CPU Usage (Nb of CPUs)",
           "refId": "A"
@@ -371,7 +371,7 @@
       "pluginVersion": "6.5.2",
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container_name!=\"POD\",container_name!=\"\",container!=\"monitoring-daemon\"}[5m])) / sum(kube_pod_container_resource_limits{namespace=\"$namespace\", resource=\"cpu\"}) * 100",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container!=\"POD\",container!=\"\",container!=\"monitoring-daemon\"}[5m])) / sum(kube_pod_container_resource_limits{namespace=\"$namespace\", resource=\"cpu\"}) * 100",
           "format": "time_series",
           "instant": true,
           "legendFormat": "Limits CPU Usage",
@@ -527,7 +527,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container_name!=\"POD\",container_name!=\"\",container!=\"monitoring-daemon\"}[5m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\",container!=\"POD\",container!=\"\",container!=\"monitoring-daemon\"}[5m]))",
           "instant": false,
           "refId": "A"
         }
