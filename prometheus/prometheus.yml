@@ -51,3 +51,6 @@ scrape_configs:
       - targets: ['10.0.1.11:9100']
         labels:
           instance_name: db_registry
+      - targets: ['10.0.26.75:9100']
+        labels:
+          instance_name: monitoring
