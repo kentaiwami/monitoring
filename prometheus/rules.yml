@@ -58,7 +58,7 @@ groups:
   - name: co2
     rules:
       - alert: CO2High
-        expr: sensor_co2 > 1000
+        expr: max by(sensor_id) (sensor_co2) > 1000
         for: 1m
         labels:
           severity: warning
@@ -66,7 +66,7 @@ groups:
           summary: "{{ $labels.sensor_id }} のCO2濃度が1000ppmを超えています ({{ $value }}ppm)"
 
       - alert: CO2Critical
-        expr: sensor_co2 > 2000
+        expr: max by(sensor_id) (sensor_co2) > 2000
         for: 1m
         labels:
           severity: critical
