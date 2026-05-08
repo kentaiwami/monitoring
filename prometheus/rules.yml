@@ -62,6 +62,7 @@ groups:
         for: 1m
         labels:
           severity: warning
+          channel: co2
         annotations:
           summary: "{{ $labels.sensor_id }} のCO2濃度が1000ppmを超えています ({{ $value }}ppm)"
 
@@ -70,6 +71,7 @@ groups:
         for: 1m
         labels:
           severity: critical
+          channel: co2
         annotations:
           summary: "{{ $labels.sensor_id }} のCO2濃度が2000ppmを超えています ({{ $value }}ppm)"
 
