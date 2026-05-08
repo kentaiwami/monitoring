@@ -55,6 +55,26 @@ groups:
         annotations:
           summary: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} が25時間以上正常完了していません"
 
+  - name: smell
+    rules:
+      - alert: SmellHigh
+        expr: max by(sensor_id) (sensor_smell) > 0.8
+        for: 1m
+        labels:
+          severity: warning
+          channel: smell
+        annotations:
+          summary: "{{ $labels.sensor_id }} の臭気が高くなっています ({{ $value }}V)"
+
+      - alert: SmellCritical
+        expr: max by(sensor_id) (sensor_smell) > 1.5
+        for: 1m
+        labels:
+          severity: critical
+          channel: smell
+        annotations:
+          summary: "{{ $labels.sensor_id }} の臭気が非常に高くなっています ({{ $value }}V)"
+
   - name: co2
     rules:
       - alert: CO2High
