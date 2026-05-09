@@ -4,6 +4,7 @@ server:
   http_listen_port: 3100
 
 common:
+  path_prefix: /loki
   storage:
     filesystem:
       chunks_directory: /loki/chunks
@@ -27,6 +28,7 @@ schema_config:
 compactor:
   working_directory: /loki/compactor
   retention_enabled: true
+  delete_request_store: filesystem
 
 limits_config:
   retention_period: 360h  # 15日
