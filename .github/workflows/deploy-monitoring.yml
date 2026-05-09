@@ -13,8 +13,8 @@ jobs:
 
       - name: Copy secrets
         run: |
-          cp ~/.secrets/monitoring/alertmanager.yml alertmanager/alertmanager.yml
-          cp ~/.secrets/monitoring/.env .env
+          aws s3 cp s3://${{ secrets.CONFIG_BUCKET }}/monitoring/alertmanager.yml alertmanager/alertmanager.yml
+          aws s3 cp s3://${{ secrets.CONFIG_BUCKET }}/monitoring/env .env
 
       - name: Pull and restart
         run: |
