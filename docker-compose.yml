@@ -26,6 +26,8 @@ services:
     image: grafana/loki:3.4.3
     volumes:
       - loki_data:/loki
+      - ./loki/loki.yml:/etc/loki/loki.yml
+    command: -config.file=/etc/loki/loki.yml
     ports:
       - "3100:3100"
     restart: unless-stopped
