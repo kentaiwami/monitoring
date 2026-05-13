@@ -58,7 +58,7 @@ groups:
   - name: smell
     rules:
       - alert: SmellHigh
-        expr: max by(sensor_id) (sensor_smell) > 0.8
+        expr: max by(sensor_id) (sensor_smell) > 0.6
         for: 1m
         labels:
           severity: warning
@@ -67,7 +67,7 @@ groups:
           summary: "{{ $labels.sensor_id }} の臭気が高くなっています ({{ $value }}V)"
 
       - alert: SmellCritical
-        expr: max by(sensor_id) (sensor_smell) > 1.5
+        expr: max by(sensor_id) (sensor_smell) > 0.8
         for: 1m
         labels:
           severity: critical
