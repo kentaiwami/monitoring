@@ -55,26 +55,6 @@ groups:
         annotations:
           summary: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} が25時間以上正常完了していません"
 
-  - name: co2
-    rules:
-      - alert: CO2High
-        expr: max by(sensor_id) (sensor_co2) > 1000
-        for: 1m
-        labels:
-          severity: warning
-          channel: co2
-        annotations:
-          summary: "{{ $labels.sensor_id }} のCO2濃度が1000ppmを超えています ({{ $value }}ppm)"
-
-      - alert: CO2Critical
-        expr: max by(sensor_id) (sensor_co2) > 2000
-        for: 1m
-        labels:
-          severity: critical
-          channel: co2
-        annotations:
-          summary: "{{ $labels.sensor_id }} のCO2濃度が2000ppmを超えています ({{ $value }}ppm)"
-
   - name: node
     rules:
       - alert: NodeCPUHigh
