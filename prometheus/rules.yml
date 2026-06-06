@@ -30,15 +30,14 @@ groups:
 
       - alert: CronJobFailed
         expr: |
-          kube_job_failed{namespace!~"kube-system|kube-public|monitoring", condition="true"} > 0
-          unless on(job_name, namespace)
-          (kube_job_complete{condition="true"} > 0)
-        for: 0m
+          kube_cronjob_status_last_schedule_time{namespace!~"kube-system|kube-public|monitoring"}
+          > kube_cronjob_status_last_successful_time{namespace!~"kube-system|kube-public|monitoring"}
+        for: 5m
         labels:
           severity: critical
           namespace: "{{ $labels.namespace }}"
         annotations:
-          summary: "Job {{ $labels.namespace }}/{{ $labels.job_name }} が失敗しました"
+          summary: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} の最新実行が失敗しています"
 
       - alert: CronJobNotCompleted
         expr: (time() - kube_cronjob_status_last_successful_time{namespace!~"kube-system|kube-public|monitoring"}) > 86400 + 3600
