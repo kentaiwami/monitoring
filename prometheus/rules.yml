@@ -29,7 +29,10 @@ groups:
           summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} のreplicas数が不足しています"
 
       - alert: CronJobFailed
-        expr: kube_job_failed{namespace!~"kube-system|kube-public|monitoring", condition="true"} > 0
+        expr: |
+          kube_job_failed{namespace!~"kube-system|kube-public|monitoring", condition="true"} > 0
+          unless on(job_name, namespace)
+          (kube_job_complete{condition="true"} > 0)
         for: 0m
         labels:
           severity: critical
